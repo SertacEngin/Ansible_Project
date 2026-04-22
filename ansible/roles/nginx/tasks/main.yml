@@ -15,3 +15,9 @@
     src: index.html.j2
     dest: /var/www/html/index.html
   notify: restart nginx
+
+- name: Add health endpoint
+  copy:
+    dest: /var/www/html/health.html
+    content: |
+      OK - {{ inventory_hostname }} is running

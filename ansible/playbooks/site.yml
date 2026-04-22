@@ -9,3 +9,4 @@
     - fail2ban
     - motd
     - nginx
+    - monitoring
