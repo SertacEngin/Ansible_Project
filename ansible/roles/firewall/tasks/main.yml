@@ -17,3 +17,19 @@
   ufw:
     state: enabled
     policy: allow
+
+- name: Allow node_exporter port
+  ufw:
+    rule: allow
+    port: 9100
+    proto: tcp
+
+- name: Allow Prometheus
+  ufw:
+    rule: allow
+    port: '9090'
+
+- name: Allow Grafana
+  ufw:
+    rule: allow
+    port: '3000'

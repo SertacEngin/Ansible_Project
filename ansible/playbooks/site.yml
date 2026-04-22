@@ -10,3 +10,9 @@
     - motd
     - nginx
     - monitoring
+
+- hosts: app
+  become: true
+  roles:
+    - prometheus
+    - grafana
