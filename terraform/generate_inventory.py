@@ -34,7 +34,6 @@ inventory = f"""
 all:
   vars:
     ansible_user: root
-    ansible_ssh_private_key_file: /home/sertac/.ssh/hetzner_key
 
   children:
     web:

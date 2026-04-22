@@ -23,13 +23,10 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
-      - name: Disable host key checking (simpler)
-        run: |
-          echo -e "[defaults]\nhost_key_checking = False" > ~/.ansible.cfg
-
       - name: Run Ansible Playbook
         working-directory: ansible
         run: |
           ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
             -i inventories/production/inventory.yml \
-            playbooks/site.yml
+            playbooks/site.yml \
+            --private-key ~/.ssh/id_rsa
