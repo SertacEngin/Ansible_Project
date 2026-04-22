@@ -1,3 +1,13 @@
+name: Deploy Application (Ansible)
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -5,8 +15,8 @@
       - name: Install Ansible and Python dependencies
         run: |
           python3 -m pip install --upgrade pip
-          # passlib muss hier auf dem Runner installiert sein
-          python3 -m pip install ansible passlib 
+          # passlib auf dem Runner ist nötig für den password_hash Filter
+          python3 -m pip install ansible passlib
 
       - name: Setup SSH Key
         run: |
