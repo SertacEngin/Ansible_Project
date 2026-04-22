@@ -17,6 +17,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ansible
 
+      - name: Install Python dependencies
+        run: |
+          pip install passlib
+
       - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh
