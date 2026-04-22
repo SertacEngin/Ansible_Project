@@ -1,0 +1,9 @@
+- name: Set MOTD
+  copy:
+    dest: /etc/motd
+    content: |
+      ******************************************
+      DevOps Demo Environment
+      Managed via Ansible
+      Purpose: Web + App Servers
+      ******************************************

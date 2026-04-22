@@ -1,0 +1,11 @@
+- hosts: all
+  become: true
+  roles:
+    - common
+    - users
+    - sudoers
+    - ntp
+    - firewall
+    - fail2ban
+    - motd
+    - nginx

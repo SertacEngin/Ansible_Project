@@ -1,0 +1,13 @@
+- name: Load vault variables
+  include_vars:
+    file: vault.yml
+
+- name: Create users with password
+  user:
+    name: "{{ item }}"
+    password: "{{ user_passwords[item] | password_hash('sha512') }}"
+    state: present
+  loop:
+    - alice
+    - bob
+    - carol

@@ -1,0 +1,8 @@
+- name: Allow dev users sudo without password
+  copy:
+    dest: /etc/sudoers.d/dev-users
+    content: |
+      alice ALL=(ALL) NOPASSWD:ALL
+      bob ALL=(ALL) NOPASSWD:ALL
+      carol ALL=(ALL) NOPASSWD:ALL
+    mode: '0440'
