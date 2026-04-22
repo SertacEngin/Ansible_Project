@@ -20,7 +20,7 @@ jobs:
       - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/hetzner_key
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/ansible_capgemini
           chmod 600 ~/.ssh/hetzner_key
 
       - name: Run Ansible Playbook
@@ -29,4 +29,4 @@ jobs:
           ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
             -i inventories/production/inventory.yml \
             playbooks/site.yml \
-            --private-key ~/.ssh/hetzner_key
+            --private-key ~/.ssh/ansible_capgemini

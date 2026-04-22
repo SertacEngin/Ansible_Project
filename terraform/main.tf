@@ -46,7 +46,7 @@ variable "location" {
 
 resource "hcloud_ssh_key" "default" {
   name       = "ansible-project-key"
-  public_key = trimspace(file(var.ssh_public_key_path))
+  public_key = trimspace(file("~/.ssh/ansible_capgemini.pub"))
 }
 
 # =========================
