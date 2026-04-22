@@ -24,7 +24,6 @@ The system consists of the following components:
 
 ## 🔄 Workflow
 
-```text
 Terraform → Provisions VMs (Hetzner Cloud)
         ↓
 Python Script → Generates dynamic Ansible inventory
@@ -101,6 +100,7 @@ Basic system visibility includes:
 Installed diagnostic tools (htop, net-tools)
 System information file per server
 Health check endpoint via Nginx
+
 🧪 How to Use
 1. Provision infrastructure
 cd terraform
@@ -114,23 +114,14 @@ cd ansible
 ansible-playbook playbooks/site.yml --ask-vault-pass
 4. Run CI checks
 
-Push to GitHub or open a Pull Request to trigger pipeline.
-
-📁 Project Structure
-terraform/
-ansible/
-  ├── roles/
-  ├── playbooks/
-  ├── inventories/
-.github/
-  └── workflows/
-🎯 Key Learnings
+Push to GitHub or open a Pull Request to trigger pipeline.🎯 Key Learnings
 Infrastructure as Code with Terraform
 Configuration Management with Ansible
 Secure secret handling using Ansible Vault
 CI/CD automation with GitHub Actions
 Separation of infrastructure and configuration layers
 Modular DevOps architecture design
+
 🚀 Future Improvements
 Centralized logging (ELK / Loki)
 Prometheus monitoring
@@ -138,32 +129,7 @@ SSH hardening role
 Auto-scaling infrastructure
 Docker containerization
 Kubernetes migration
-👤 Author
+
+👤 Author: Sertac Engin
 
 DevOps automation project built for learning and demonstrating production-like infrastructure workflows.
-
-
----
-
-# 🧠 Warum diese README stark ist
-
-Sie zeigt im Interview:
-
-- Architekturverständnis
-- Toolchain-Verständnis
-- Security Awareness
-- CI/CD Verständnis
-- klare Strukturierung
-- „production thinking“
-
----
-
-# 🚀 Wenn du willst
-
-Ich kann als nächsten Schritt noch machen:
-
-- 🔥 :contentReference[oaicite:0]{index=0}
-- 🔥 :contentReference[oaicite:1]{index=1}
-- 🔥 :contentReference[oaicite:2]{index=2}
-
-Sag einfach 👍
