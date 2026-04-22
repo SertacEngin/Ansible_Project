@@ -4,13 +4,16 @@ import subprocess
 result = subprocess.run(
     ["terraform", "output", "-json"],
     capture_output=True,
-    text=True
+    text=True,
+    cwd="../terraform"
 )
 
 data = json.loads(result.stdout)
 
-master_ip = data["master_ip"]["value"]
-worker_ip = data["worker_ip"]["value"]
+servers = data["servers"]["value"]
+
+web_ip = servers["web"]["ip"]
+app_ip = servers["app"]["ip"]
 
 inventory = f"""
 all:
@@ -22,15 +25,15 @@ all:
     web:
       hosts:
         web-1:
-          ansible_host: {master_ip}
+          ansible_host: {web_ip}
 
     app:
       hosts:
         app-1:
-          ansible_host: {worker_ip}
+          ansible_host: {app_ip}
 """
 
-with open("inventory.yml", "w") as f:
+with open("../ansible/inventories/production/inventory.yml", "w") as f:
     f.write(inventory)
 
 print("Inventory created!")
