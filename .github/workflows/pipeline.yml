@@ -21,7 +21,7 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/ansible_capgemini
-          chmod 600 ~/.ssh/hetzner_key
+          chmod 600 ~/.ssh/ansible_capgemini
 
       - name: Run Ansible Playbook
         working-directory: ansible
