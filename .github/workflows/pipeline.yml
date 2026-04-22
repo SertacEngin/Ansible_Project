@@ -20,8 +20,8 @@ jobs:
       - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/hetzner_key
+          chmod 600 ~/.ssh/hetzner_key
 
       - name: Run Ansible Playbook
         working-directory: ansible
@@ -29,4 +29,4 @@ jobs:
           ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
             -i inventories/production/inventory.yml \
             playbooks/site.yml \
-            --private-key ~/.ssh/id_rsa
+            --private-key ~/.ssh/hetzner_key
