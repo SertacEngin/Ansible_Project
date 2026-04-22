@@ -30,4 +30,6 @@ jobs:
       - name: Run Ansible Playbook
         working-directory: ansible
         run: |
-          ansible-playbook -i inventories/production/inventory.yml playbooks/site.yml
+          ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
+            -i inventories/production/inventory.yml \
+            playbooks/site.yml
