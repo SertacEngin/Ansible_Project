@@ -116,7 +116,6 @@ Terraform validation
 Ansible syntax checks
 
 This ensures:
-
 Early detection of errors
 Consistent infrastructure definitions
 Safe configuration changes
