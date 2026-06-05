@@ -1,163 +1,202 @@
-🚀 DevOps Automation Project (Terraform + Ansible + CI/CD)
-📌 Overview
+# Ansible Infrastructure Automation Platform
 
-This project demonstrates a complete Infrastructure as Code (IaC) and Configuration Management workflow using modern DevOps tools.
+## Overview
 
-It automates the provisioning, configuration, and basic hardening of a multi-server environment, including application deployment and CI validation pipelines.
+This project demonstrates a fully automated infrastructure provisioning and configuration management system using Terraform and Ansible.
 
-The goal was not just to “make things work”, but to simulate how a real-world DevOps setup looks like — where infrastructure, configuration, deployment, and observability all come together.
+It provisions cloud servers on Hetzner and configures them into a production-like environment with web services, monitoring, logging, security hardening, and system services.
 
-🏗 Architecture
+The goal is to simulate real-world Infrastructure as Code (IaC) and Configuration Management workflows.
 
-The system is built as a small but realistic multi-node environment:
+---
 
-Web Server (web-1) → serves the application via Nginx
-Application / Monitoring Server (app-1) → hosts services and monitoring stack
+## Architecture
 
-Core components:
+Terraform provisions the infrastructure, and Ansible configures and manages the system state:
 
-Infrastructure Layer → Terraform
-Configuration Management → Ansible
-Automation Bridge → Python (Terraform → Ansible Inventory)
-CI/CD Pipeline → GitHub Actions
-Application Layer → Nginx
-Monitoring Stack → Node Exporter + Prometheus + Grafana
-🔄 Workflow
+Terraform → Hetzner Cloud → Ubuntu Servers → Ansible Configuration → Services (Web + App + Monitoring)
 
-Terraform provisions the infrastructure in Hetzner Cloud.
-A Python script extracts the outputs and generates a dynamic Ansible inventory.
-Ansible then configures the servers, deploys the application, and applies security settings.
-GitHub Actions validates the setup automatically on each push.
+---
 
-This separation keeps infrastructure and configuration cleanly decoupled, which reflects real-world DevOps practices.
+## Infrastructure Provisioning (Terraform)
 
-🧱 Infrastructure (Terraform)
+Infrastructure is provisioned using Terraform on Hetzner Cloud.
 
-Provisioning includes:
+It creates:
 
-Virtual machines (Hetzner Cloud)
-SSH key-based access
-Region and instance configuration
+* 2 Ubuntu servers (web + app)
+* SSH key-based access
+* Standardized server configuration
+* Output-driven inventory generation for Ansible automation
 
-Two main nodes are created:
+The infrastructure is fully reproducible and can be recreated from scratch using a single Terraform apply.
 
-web-1 → public-facing web server
-app-1 → backend + monitoring node
-⚙ Configuration Management (Ansible)
+---
 
-Ansible is used to fully automate server configuration in a modular way.
+## Configuration Management (Ansible)
 
-Implemented roles:
+Ansible is used to configure and standardize all servers after provisioning.
 
-common → base packages and system setup
-users → user creation with Vault-managed passwords
-sudoers → privilege configuration
-ntp → time synchronization
-firewall → UFW configuration
-fail2ban → intrusion prevention
-nginx → application deployment
-monitoring → metrics collection setup
-prometheus → metrics aggregation
-grafana → visualization layer
+### Core responsibilities:
 
-The setup is fully idempotent and can be re-run safely at any time.
+* System updates and base tools installation
+* User and security management
+* Firewall configuration (UFW)
+* Fail2ban for brute-force protection
+* NTP synchronization (chrony)
+* MOTD standardization
+* Web server provisioning (Nginx)
 
-🔐 Security
+---
 
-Basic security best practices are implemented:
+## Web Layer (Nginx)
 
-SSH key authentication (no password login)
-Ansible Vault for secret management
-UFW firewall rules (restricted ports)
-Fail2Ban for intrusion prevention
-Separation of user privileges
-🌐 Application
+The web server is configured using Ansible:
 
-A simple Nginx-based web application is deployed:
+* Nginx installation and service management
+* Automated deployment of static content via templates
+* Health check endpoint for monitoring
+* Fully automated configuration rollout
 
-Dynamic index page via Ansible templates
-Displays hostname and deployment metadata
-Acts as a lightweight demo application
-📊 Monitoring & Observability
+---
 
-To move beyond deployment into real operations, a lightweight monitoring stack was added.
+## Monitoring Stack
 
-What is monitored?
+A lightweight observability stack is deployed:
 
-Each server runs Node Exporter, which exposes system-level metrics such as:
+### Components:
 
-CPU usage
-Memory usage
-Disk utilization
-Network activity
-Metrics Collection
+* Node Exporter (system metrics collection)
+* Prometheus (metrics aggregation and scraping)
+* Grafana (visualization dashboard)
 
-A central Prometheus instance (running on app-1) collects metrics from both servers.
+### Features:
 
-This follows a pull-based model, where Prometheus periodically scrapes metrics endpoints from each node.
+* System-level metrics monitoring
+* Multi-server scraping configuration
+* Service-based monitoring via systemd
+* Centralized observability setup
 
-Visualization
+---
 
-Grafana is used to visualize the data:
+## Security Hardening
 
-Pre-built dashboards for system metrics
-Real-time visibility into server health
-Easy identification of bottlenecks
+The infrastructure includes basic security best practices:
 
-This turns the project from “deployment automation” into a real operational system.
+* UFW firewall with restricted ports (SSH, HTTP, monitoring ports)
+* Fail2ban for SSH brute-force protection
+* Dedicated system users for services
+* Disabled interactive login for service accounts
 
-🔄 CI/CD Pipeline
+---
 
-Implemented using GitHub Actions.
+## Automation Flow
 
-The pipeline focuses on validation rather than provisioning:
+### End-to-end workflow:
 
-Terraform validation
-Ansible syntax checks
+1. Terraform provisions cloud infrastructure (Hetzner)
+2. Inventory is generated dynamically
+3. GitHub Actions triggers Ansible pipeline
+4. SSH key is injected securely via CI/CD secrets
+5. Ansible configures all servers automatically
+6. Monitoring + services are deployed and started
 
-This ensures:
-Early detection of errors
-Consistent infrastructure definitions
-Safe configuration changes
+---
 
-Infrastructure provisioning (Terraform apply) is intentionally kept outside the pipeline, as it is not part of frequent deployments.
+## CI/CD Pipeline (GitHub Actions)
 
-🐍 Automation Bridge
+An automated deployment pipeline is implemented using GitHub Actions.
 
-A small Python script connects Terraform and Ansible:
+### Pipeline flow:
 
-Reads Terraform outputs
-Generates a dynamic inventory file
-Keeps both layers loosely coupled
+1. Code is pushed to main branch
+2. GitHub Actions runner installs Ansible dependencies
+3. SSH key is securely loaded from secrets
+4. Ansible playbook is executed against infrastructure
+5. Configuration is applied in a fully automated way
 
-This reflects a common real-world pattern where tools are integrated instead of tightly coupled.
+### Features:
 
-🧪 How to Use
-Provision infrastructure
-Navigate to the Terraform directory and apply the configuration
-Generate inventory
-Run the Python script to create the Ansible inventory
-Configure servers
-Execute the Ansible playbook with Vault password
-Validate via CI/CD
-Push changes to trigger GitHub Actions
-🎯 Key Learnings
-Infrastructure as Code with Terraform
-Configuration Management with Ansible
-Secure secret handling using Ansible Vault
-CI/CD validation pipelines
-Monitoring with Prometheus and Grafana
-Separation of infrastructure and configuration
-Designing modular and maintainable DevOps systems
-🚀 Future Improvements
-Centralized logging (ELK / Loki)
-Alerting with Prometheus Alertmanager
-SSH hardening role
-Auto-scaling infrastructure
-Containerization with Docker
-Migration to Kubernetes
-👤 Author
+* Zero manual server configuration
+* Secure SSH-based deployment
+* Reproducible infrastructure state
+* Fully automated configuration management
 
-Sertac Engin
+---
 
-DevOps automation project built to simulate production-like infrastructure workflows and demonstrate practical, end-to-end system design.
+## Key Concepts Demonstrated
+
+* Infrastructure as Code (Terraform)
+* Configuration Management (Ansible)
+* Idempotent system design
+* Immutable infrastructure principles
+* Service orchestration
+* Monitoring & observability
+* Security hardening
+* CI/CD automation
+
+---
+
+## Roles Structure (Ansible Design)
+
+The system is modular and role-based:
+
+* common → base system setup
+* firewall → security layer
+* fail2ban → intrusion protection
+* nginx → web server setup
+* monitoring → Prometheus + Node Exporter
+* grafana → visualization
+* prometheus → metrics backend
+* ntp → time synchronization
+* motd → system standardization
+
+---
+
+## Monitoring & Observability
+
+The system exposes:
+
+* CPU / memory / disk usage (Node Exporter)
+* Application metrics via Prometheus scraping
+* Grafana dashboards for visualization
+
+Targets are dynamically configured using Ansible inventory variables.
+
+---
+
+## Technologies Used
+
+* Terraform
+* Ansible
+* Hetzner Cloud API
+* Ubuntu Linux
+* Nginx
+* Prometheus
+* Grafana
+* Node Exporter
+* GitHub Actions
+* UFW / Fail2ban / Chrony
+
+---
+
+## Purpose of this Project
+
+This project was built to simulate real-world DevOps and infrastructure automation scenarios, including:
+
+* Cloud provisioning
+* Configuration management
+* Security hardening
+* Monitoring systems
+* CI/CD deployment pipelines
+
+---
+
+## Future Improvements
+
+* Add Docker-based deployments
+* Centralized logging (ELK / Loki)
+* Role-based access control (RBAC)
+* Ansible Vault for secrets management
+* Multi-environment support (dev/staging/prod)
+* High availability architecture
