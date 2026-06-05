@@ -46,6 +46,10 @@ Ansible is used to configure and standardize all servers after provisioning.
 * NTP synchronization (chrony)
 * MOTD standardization
 * Web server provisioning (Nginx)
+<img width="2217" height="152" alt="ansible playbook run output" src="https://github.com/user-attachments/assets/fd8e27a3-ddd0-4d2d-86e0-e1089f78eab9" />
+The playbooks are designed to be idempotent, meaning they can be executed multiple times without causing inconsistent system states or duplicate configurations.
+<img width="1004" height="584" alt="ufw status" src="https://github.com/user-attachments/assets/c05b01b3-5779-478d-aac6-e317aa40c8c8" />
+UFW firewall rules were automatically configured and deployed across the infrastructure using Ansible automation.
 
 ---
 
