@@ -7,29 +7,21 @@
   ufw:
     rule: allow
     port: 22
+    proto: tcp
 
 - name: Allow HTTP
   ufw:
     rule: allow
     port: 80
+    proto: tcp
 
-- name: Enable firewall
-  ufw:
-    state: enabled
-    policy: allow
-
-- name: Allow node_exporter port
+- name: Allow node_exporter
   ufw:
     rule: allow
     port: 9100
     proto: tcp
 
-- name: Allow Prometheus
+- name: Set default deny incoming
   ufw:
-    rule: allow
-    port: '9090'
-
-- name: Allow Grafana
-  ufw:
-    rule: allow
-    port: '3000'
+    state: enabled
+    policy: deny

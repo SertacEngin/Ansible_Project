@@ -10,6 +10,7 @@
     - motd
     - nginx
     - monitoring
+    - node_exporter
 
 - hosts: app
   become: true
