@@ -7,9 +7,9 @@ all:
     web:
       hosts:
         web-1:
-          ansible_host: 178.105.44.112
+          ansible_host: 167.235.129.55
 
     app:
       hosts:
         app-1:
-          ansible_host: 178.105.44.169
+          ansible_host: 188.245.189.204
