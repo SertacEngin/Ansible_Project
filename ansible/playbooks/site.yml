@@ -8,9 +8,13 @@
     - firewall
     - fail2ban
     - motd
-    - nginx
     - monitoring
     - node_exporter
+
+- hosts: web
+  become: true
+  roles:
+    - nginx
 
 - hosts: app
   become: true
